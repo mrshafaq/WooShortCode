@@ -1,0 +1,26 @@
+<?php
+/*
+ Plugin Name: Woo Short Codes
+ Plugin URI: https://github.com/mrshafaq/WooShortCode
+ Description: A sample plugin for display wooCommerce product price and other short code to display in content area of wp.
+ Version: 1.0
+ Author: MrShafaq
+ Author URI: https://github.com/mrshafaq/
+ License: GPLv3 or later
+ */
+
+
+function bbcs_woo_price_shortcode_function( $atts ) {
+    $atts = shortcode_atts( array(
+        'id' => null,
+    ), $atts, 'bartag' );
+
+    $html = '';
+
+    if( intval( $atts['id'] ) > 0 && function_exists( 'wc_get_product' ) ){
+         $product = wc_get_product( $atts['id'] );
+         $html = $product->get_price_html();
+    }
+    return $html;
+}
+add_shortcode( 'product_price', 'bbcs_woo_price_shortcode_function' );
